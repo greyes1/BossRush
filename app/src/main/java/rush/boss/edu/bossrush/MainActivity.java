@@ -22,22 +22,44 @@ public class MainActivity extends AppCompatActivity {
             return name;
         }
 
-        public void doTurn(){
+        public void doTurn(Hero hero, Monster mon){
             System.out.print("It is the " + getName() + "'s turn");
         }
     }
+/*
+    private class Decklist{
+        private class Card{
+            int id;
+            int name;
+            String type;
+            String Rarity;
+            String effectText;
+        }
+        Card[] cards;
+        private Card selectCard(int cardId){
+            //We could use index 0 to be the default attack
+            return cards[cardId];
+        }
+    }
+*/
 
     private class Hero extends Being{
         @Override
-        public void doTurn() {
-            super.doTurn();
+        public void doTurn(Hero hero, Monster mon) {
+            super.doTurn(hero, mon);
+            //Take user input (SUPER WIP)
+           // if(false)Decklist.selectCard(0);
+            //NFC CARD PICK HERE
+
+
+
             System.out.print("I am a HERO!");
         }
     }
     private class Monster extends Being{
         @Override
-        public void doTurn() {
-            super.doTurn();
+        public void doTurn(Hero hero, Monster mon) {
+            super.doTurn(hero, mon);
             System.out.print("I am a MONSTER!!");
         }
     }
@@ -46,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //Pick hero
         Hero myHero = new Hero();
+        //Pick Monster
         Monster myMon = new Monster();
-
+        //Play Game
         boolean win =  gameStart(myHero, myMon);
 
+        //Did you win?
         if(win){
             System.out.println("You Win");
         }else{
@@ -72,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         while(hero.getHealth() > 0 && mon.getHealth() > 0){
             //DO TURNS
-            current.doTurn();
+            current.doTurn(hero, mon);
 
             if(hero == current) current = mon;
             else if (mon == current) current = hero;
