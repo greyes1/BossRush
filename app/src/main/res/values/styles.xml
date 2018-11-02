@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        
     </style>
-
+    <style name="TitleText" >
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">22dp</item>
+    </style>
 </resources>
