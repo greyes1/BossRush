@@ -48,10 +48,8 @@ public class MainActivity extends AppCompatActivity {
         public void doTurn(Hero hero, Monster mon) {
             super.doTurn(hero, mon);
             //Take user input (SUPER WIP)
-           // if(false)Decklist.selectCard(0);
+            //if(false)Decklist.selectCard(0);
             //NFC CARD PICK HERE
-
-
 
             System.out.print("I am a HERO!");
         }

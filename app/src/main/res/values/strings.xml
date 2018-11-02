@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BossRush</string>
+    <string name="testOutput"> TESTING </string>
 </resources>
