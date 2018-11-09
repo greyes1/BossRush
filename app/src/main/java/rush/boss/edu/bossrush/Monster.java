@@ -4,10 +4,10 @@ public class Monster extends Being{
 
     public Monster(String id) {
         super(id);
-        setAttack(5);
-        setDefense(5);
-        setHealth(20);
-        setName("HeroMan");
+        setAttack(3);
+        setDefense(1);
+        setHealth(40);
+        setName("MonsterMan");
     }
 
     @Override
