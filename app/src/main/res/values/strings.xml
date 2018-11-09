@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">BossRush</string>
-    <string name="testOutput"> TESTING </string>
+    <string name="testOutput">TESTING</string>
+    <string name="currentTurn">Turn</string>
+
+    <string name="hero"> Hero </string>
+    <string name="mon"> Monster </string>
+    <string name="monImage">MonsterImage</string>
+
+
 </resources>
