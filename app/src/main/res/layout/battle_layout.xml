@@ -46,9 +46,13 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="98dp">
+        app:layout_constraintBottom_toTopOf="@+id/exitBattle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/MonsterImage"
@@ -107,28 +111,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="monName" />
+                android:text="heroName" />
 
             <TextView
                 android:id="@+id/heroHealth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="monHealth" />
+                android:text="heroHealth" />
 
             <TextView
                 android:id="@+id/heroAttack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="monAttack" />
+                android:text="heroAttack" />
 
             <TextView
                 android:id="@+id/heroDefense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="monDefense" />
+                android:text="heroDefense" />
 
         </LinearLayout>
 
@@ -136,7 +140,7 @@
             android:id="@+id/heroImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/monImage"
+            android:contentDescription="@string/heroImage"
             app:srcCompat="@drawable/ic_launcher_background" />
 
     </LinearLayout>

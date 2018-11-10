@@ -48,19 +48,19 @@ public class BattleActivity extends AppCompatActivity {
             //Display who goes first
             TextView currentActor = findViewById(R.id.currentTurn);
 //
-//            TextView[] monAttr = {
-//                    findViewById(R.id.monName),
-//                    findViewById(R.id.monHealth),
-//                    findViewById(R.id.monAttack),
-//                    findViewById(R.id.monDefense)
-//            };
+            TextView[] monAttr = {
+                    findViewById(R.id.monName),
+                    findViewById(R.id.monHealth),
+                    findViewById(R.id.monAttack),
+                    findViewById(R.id.monDefense)
+            };
 
             currentActor.setText(current.getId());
 
-//            monAttr[0].setText(mon.getName());
-//            monAttr[1].setText(mon.getHealth());
-//            monAttr[2].setText(mon.getAttack());
-//            monAttr[3].setText(mon.getDefense());
+            monAttr[0].setText(mon.getName());
+            monAttr[1].setText(mon.getHealth());
+            monAttr[2].setText(mon.getAttack());
+            monAttr[3].setText(mon.getDefense());
 
            /* while(hero.getHealth() > 0 && mon.getHealth() > 0){
                 //DO TURNS
@@ -93,9 +93,11 @@ public class BattleActivity extends AppCompatActivity {
 
         String heroId = intent.getStringExtra("HERO");
         String monId = intent.getStringExtra("MON");
+        String envID = intent.getStringExtra("ENV");
 
         Hero myHero = new Hero(heroId);
         Monster myMon = new Monster(monId);
+
         //When we implement the deck
         //Game game = new Game(getCard(hero), getCard(mon));
         Game game = new Game(myHero, myMon);

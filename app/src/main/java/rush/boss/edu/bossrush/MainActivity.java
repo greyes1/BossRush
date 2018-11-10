@@ -8,7 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    Intent toBattle = new Intent();
+//    Intent toBattle;
+
 /*
     private class Decklist{
         private class Card{
@@ -34,32 +35,34 @@ public class MainActivity extends AppCompatActivity {
 
 //        boolean win =  gameStart(myHero, myMon);
 
-        Button startButton = findViewById(R.id.startButton);
+        Button beginSelection = findViewById(R.id.beginSelection);
         Button startNFC = findViewById(R.id.startNFC);
 
         final TextView testOutput = findViewById(R.id.testOutput);
 
 
-        startButton.setOnClickListener(new View.OnClickListener() {
+        beginSelection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Send to NFC activity but in the meantime:
 
-                //Pick hero, normally they'd be pulled from NFC
-                String myHeroId = "HER0001";
-                //Pick Monster
-                String myMonId = "MON0001";
+//                //Pick hero, normally they'd be pulled from NFC
+//                String myHeroId = "HER0001";
+//                //Pick Monster
+//                String myMonId = "MON0001";
+//
+//                Bundle fighters = new Bundle();
+//                fighters.putString("HERO", myHeroId);
+//                fighters.putString("MON",myMonId);
 
-                Bundle fighters = new Bundle();
-                fighters.putString("HERO", myHeroId);
-                fighters.putString("MON",myMonId);
-
-                //Play Game
-                toBattle.setClass(getApplicationContext(), BattleActivity.class);
-                toBattle.putExtras(fighters);
-                startActivity(toBattle);
-
-
+//                //Play Game
+//                toBattle.setClass(getApplicationContext(), BattleActivity.class);
+//                toBattle.putExtras(fighters);
+//                startActivity(toBattle);
+//            setContentView(R.layout.selection_screen);
+                Intent select = new Intent();
+                select.setClass(getApplicationContext(), SelectionActivity.class);
+                startActivity(select);
 
             }
         });

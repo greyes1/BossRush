@@ -6,6 +6,9 @@
     <string name="hero"> Hero </string>
     <string name="mon"> Monster </string>
     <string name="monImage">MonsterImage</string>
+    <string name="heroImage">HeroImage</string>
+    <string name="defaultSelection"> Tap a supported NFC card to make your selection! </string>
+
 
 
 </resources>
