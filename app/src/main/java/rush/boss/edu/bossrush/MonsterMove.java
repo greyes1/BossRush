@@ -1,8 +1,8 @@
 package main.java.rush.boss.edu.bossrush;
 
-public class MonsterAI {
+public class MonsterMove {
 
-    public MonsterAI()
+    public MonsterMove()
     {
 
         int monsterHealth;
