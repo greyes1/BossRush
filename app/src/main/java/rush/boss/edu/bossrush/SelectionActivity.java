@@ -1,4 +1,4 @@
-package main.java.rush.boss.edu.bossrush;
+package rush.boss.edu.bossrush;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -35,8 +35,7 @@ public class SelectionActivity extends AppCompatActivity {
     TextView envSpot;
 
     Button startButton;
-
-    Intent toBattle;
+    Intent toBattle = new Intent();
     Bundle battleData = new Bundle();
 
 

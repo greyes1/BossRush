@@ -1,4 +1,4 @@
-package main.java.rush.boss.edu.bossrush;
+package rush.boss.edu.bossrush;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -57,10 +57,10 @@ public class BattleActivity extends AppCompatActivity {
 
             currentActor.setText(current.getId());
 
-            monAttr[0].setText(mon.getName());
-            monAttr[1].setText(mon.getHealth());
-            monAttr[2].setText(mon.getAttack());
-            monAttr[3].setText(mon.getDefense());
+//            monAttr[0].setText(mon.getName());
+//            monAttr[1].setText(mon.getHealth());
+//            monAttr[2].setText(mon.getAttack());
+//            monAttr[3].setText(mon.getDefense());
 
            /* while(hero.getHealth() > 0 && mon.getHealth() > 0){
                 //DO TURNS
