@@ -1,4 +1,4 @@
-package rush.boss.edu.bossrush;
+package main.java.rush.boss.edu.bossrush;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,15 +12,15 @@ public class MainActivity extends AppCompatActivity {
 
 /*
     private class Decklist{
-        private class Card{
+        private class starterCard{
             int id;
             int name;
             String type;
             String Rarity;
             String effectText;
         }
-        Card[] cards;
-        private Card selectCard(int cardId){
+        starterCard[] cards;
+        private starterCard selectCard(int cardId){
             //We could use index 0 to be the default attack
             return cards[cardId];
         }

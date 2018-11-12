@@ -1,4 +1,4 @@
-package rush.boss.edu.bossrush;
+package main.java.rush.boss.edu.bossrush;
 
 import android.app.PendingIntent;
 import android.content.Intent;

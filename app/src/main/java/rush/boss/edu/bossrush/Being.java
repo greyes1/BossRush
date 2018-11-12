@@ -1,4 +1,4 @@
-package rush.boss.edu.bossrush;
+package main.java.rush.boss.edu.bossrush;
 
 
 public abstract class Being {
