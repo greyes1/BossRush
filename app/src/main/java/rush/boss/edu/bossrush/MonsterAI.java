@@ -27,15 +27,18 @@ public class MonsterAI {
 
         if (battleMove == attack) {
             HeroMan.setHealth(heroHealth - 12);
+            System.out.println( MonsterMan.getName + " attacks " + HeroMan.getName + "!")
         }
         else if (battleMove == defend) {
             //manipulate base defense for the next turn
+            System.out.println( MonsterMan.getName + " defends themselves!");
         }
         else if (battleMove == heal) {
             MonsterMan.setHealth(monsterHealth + 1);
+            System.out.println( MonsterMan.getName + " is healing!");
         }
         else {
-            System.out.println( MonsterMan.getName + "falters!")
+            System.out.println( MonsterMan.getName + " falters!");
         }
 
     }
