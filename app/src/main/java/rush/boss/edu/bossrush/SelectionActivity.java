@@ -35,8 +35,7 @@ public class SelectionActivity extends AppCompatActivity {
     TextView envSpot;
 
     Button startButton;
-
-    Intent toBattle;
+    Intent toBattle = new Intent();
     Bundle battleData = new Bundle();
 
 
