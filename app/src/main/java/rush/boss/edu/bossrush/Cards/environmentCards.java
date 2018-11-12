@@ -1,4 +1,4 @@
-package main.java.rush.boss.edu.bossrush.Cards;
+package rush.boss.edu.bossrush.Cards;
 
 //import java.util.ArrayList;
 import java.util.HashMap;
