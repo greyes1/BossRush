@@ -1,4 +1,4 @@
-package main.java.rush.boss.edu.bossrush;
+package rush.boss.edu.bossrush;
 
 public class MonsterMove {
 

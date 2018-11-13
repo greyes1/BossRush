@@ -1,4 +1,4 @@
-package main.java.rush.boss.edu.bossrush;
+package rush.boss.edu.bossrush;
 
 import java.util.Random;
 import java.util.Scanner;
