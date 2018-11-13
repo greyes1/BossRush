@@ -30,7 +30,7 @@ public class MonsterMove {
             System.out.println( MonsterMan.getName + " attacks " + HeroMan.getName + "!")
         }
         else if (battleMove == defend) {
-            //manipulate base defense for the next turn
+            //manipulate defense for the next turn
             System.out.println( MonsterMan.getName + " defends themselves!");
         }
         else if (battleMove == heal) {
