@@ -11,9 +11,8 @@ public class deckCards extends Card {
         new deckCards("DECK0005", "Impenetrable Barrier", "Spell", "Super Rare")
     };
 
-    /*public deckCards(String id) {
-        super(id);
-    }*/
+    public deckCards() {
+    }
 
     public deckCards(String id, String name, String type, String rarity) {
         super(id, name, type, rarity);

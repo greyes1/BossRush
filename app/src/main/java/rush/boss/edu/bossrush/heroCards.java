@@ -19,6 +19,7 @@ public class heroCards extends Card  {
         setAttack(hero.getAttack());
         setDefense(hero.getDefense());
         setRarity(hero.getRarity());
+        setType("HERO");
     }
 
     private heroCards(String id, String name, int health, int attack, int defense, String rarity) {
@@ -30,7 +31,7 @@ public class heroCards extends Card  {
         return heroDeck;
     }
 
-    private Card getCard(String id){
+    public Card getCard(String id){
         for(int i = 0; i<heroDeck.length-1; i++){
             if (heroDeck[i].getId().equals(id)) return heroDeck[i];
         }

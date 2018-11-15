@@ -19,6 +19,7 @@ public class monsterCards extends Card {
         setAttack(monster.getAttack());
         setDefense(monster.getDefense());
         setRarity(monster.getRarity());
+        setType("MONSTER");
     }
 
     public monsterCards(String id, String name, int health, int attack, int defense, String rarity) {

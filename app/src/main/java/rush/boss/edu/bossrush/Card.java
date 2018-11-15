@@ -11,7 +11,10 @@ public abstract class Card {
     private int defense;
     private String type;
     private String rarity;
-    HashMap<String, Integer> timers;
+    HashMap<String, Integer> timers = new HashMap<>();
+
+    public Card(){
+    }
 
     public Card(String id){
         this.id = id;
@@ -79,9 +82,11 @@ public abstract class Card {
     public String getRarity() {
         return rarity;
     }
-    /*public void procTimer(){
+    public void procTimer(){
         for(Map.Entry<String, Integer> effect : timers.entrySet()){
-            effect--;
+            Integer i  = effect.getValue();
+            if (i > 0)
+                effect.setValue(i - 1);
         }
-    }*/
+    }
 }

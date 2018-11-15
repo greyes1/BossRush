@@ -39,6 +39,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/battleTitle" />
 
+        <TextView
+            android:id="@+id/cardVis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Play a card!"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/battleTitle" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -96,7 +107,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="69dp"
+            android:layout_height="31dp"
             android:layout_weight="1" />
 
         <LinearLayout
@@ -144,10 +155,26 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/turnEnd"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="That's my turn!"
+        app:layout_constraintBottom_toTopOf="@+id/exitBattle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.017" />
+
+    <Button
         android:id="@+id/exitBattle"
         android:layout_width="137dp"
         android:layout_height="57dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Exit"
@@ -155,4 +182,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
