@@ -7,7 +7,7 @@ public class monsterCards extends Card {
 
     private static monsterCards[] monDeck = {
             new monsterCards("MONS0001", "Violet Sorceress", 75,11,2, "R"),
-            new monsterCards("MONS0002", "Violet Sorceress", 125, 10, 3, "R"),
+            new monsterCards("MONS0002", "Last Defender", 125, 10, 3, "R"),
             new monsterCards("MONS0003", "Enraged Warrior", 100, 12, 1, "R"),
     };
 
