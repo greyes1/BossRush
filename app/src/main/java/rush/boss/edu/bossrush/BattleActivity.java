@@ -29,6 +29,7 @@ import javax.crypto.EncryptedPrivateKeyInfo;
 public class BattleActivity extends AppCompatActivity {
     Button exitButton;
     Button turnEnd;
+    Button attack;
     NfcAdapter nfcAdapter;
 
 
@@ -44,10 +45,11 @@ public class BattleActivity extends AppCompatActivity {
     Card currentCard;
 
     boolean skip;
-    Random rand;
+    Random rand = new Random();
 
     TextView[] heroAttr;
     TextView[] monAttr;
+    TextView currentActor;
     TextView cardVis;
     deckCards deck = new deckCards();
 
@@ -89,10 +91,11 @@ public class BattleActivity extends AppCompatActivity {
             String tagContent = getTextFromNdefRecord(ndefRecord);
 
 
-            if(tagContent.contains("DECK") && deck.getCard(tagContent) != null){
+            if(tagContent.contains("DECK") && deck.getCard(tagContent) != null && current.getType().equals("HERO")){
 //                textTagContent.setText(tagContent);
                 currentCard = deck.getCard(tagContent);
                 cardVis.setText(tagContent);
+                //
                 Toast.makeText(this, deck.getCard(tagContent).getName(), Toast.LENGTH_SHORT).show();
 
             }
@@ -121,119 +124,6 @@ public class BattleActivity extends AppCompatActivity {
     }
 
 
-    private void game(){
-        Random rand = new Random();
-
-        //Determine characters
-        hero = new heroCards(heroStr);
-        mon = new monsterCards(monStr);
-
-        //Determine first
-        if(rand.nextBoolean()) current = hero;
-        else current = mon;
-
-        //Display who goes first
-        TextView currentActor = findViewById(R.id.currentTurn);
-
-        TextView[] heroAttr = {
-                findViewById(R.id.heroName),
-                findViewById(R.id.heroHealth),
-                findViewById(R.id.heroAttack),
-                findViewById(R.id.heroDefense)
-        };
-        TextView[] monAttr = {
-                findViewById(R.id.monName),
-                findViewById(R.id.monHealth),
-                findViewById(R.id.monAttack),
-                findViewById(R.id.monDefense)
-        };
-        currentActor.setText(current.getName());
-
-        //Tie heroes and monsters to their visual counterparts
-        heroAttr[0].setText(hero.getName());
-        heroAttr[1].setText(Integer.toString(hero.getHealth()));
-        heroAttr[2].setText(Integer.toString(hero.getAttack()));
-        heroAttr[3].setText(Integer.toString(hero.getDefense()));
-
-        monAttr[0].setText(mon.getName());
-        monAttr[1].setText(Integer.toString(mon.getHealth()));
-        monAttr[2].setText(Integer.toString(mon.getAttack()));
-        monAttr[3].setText(Integer.toString(mon.getDefense()));
-        while(hero.getHealth() > 0 && mon.getHealth() > 0){
-            //DO TURNS
-//Take user input (SUPER WIP)
-            //if(false)Decklist.selectCard(0);
-            //NFC CARD PICK HERE
-
-//            Log.v("I am a", actor.getType());
-            for(Map.Entry<String, Integer> effect : hero.timers.entrySet()){
-                //proc effects here
-                //Silver Bullets
-                if(effect.getKey() == "DECK0001" && effect.getValue() == 3){
-                    hero.setAttack(hero.getAttack()*2);
-                }
-                if(effect.getKey() == "DECK0001" && effect.getValue() == 0) {
-                    //get original stats from the deck
-                    hero.setAttack(hero.getCard(hero.getId()).getAttack());
-                }
-                //Tactical Roll
-                if(effect.getKey() == "DECK0002" && effect.getValue() >= 2){
-                    if(rand.nextInt(100) <= 25)
-                        hero.setDefense(Integer.MAX_VALUE);
-                }
-                if(effect.getKey() == "DECK0002" && effect.getValue() == 0) {
-                    hero.setDefense(hero.getCard(hero.getId()).getDefense());
-                }
-                //All Tied Up
-                if(effect.getKey() == "DECK0003" && effect.getValue() >= 2){
-                    skip = true;
-                }
-                if(effect.getKey() == "DECK0003" && effect.getValue() == 0) {
-                    skip = false;
-                }
-            }
-            //proc timer here
-            current.procTimer();
-
-            if(current.getType().equals("HERO")){
-                //Do a hero's turn, get input
-                Log.v("HEROLog", current.getType());
-
-                mon.setHealth(mon.getHealth()-(hero.getAttack() - mon.getDefense()));
-                //After getting input
-
-
-            }else{
-                //Do a monster's turn
-                TextView modHealth;
-
-                if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 10) {
-                    hero.setHealth(hero.getHealth() - (mon.getAttack() - hero.getDefense()));
-                    modHealth = findViewById(R.id.heroHealth);
-                    modHealth.setText(Integer.toString(hero.getHealth()));
-//                    System.out.println( mon.getName() + " attacks " + hero.getName() + "!");
-                    Log.v("MonOut", mon.getName() + " attacks " + hero.getName() + "!");
-                }
-                else if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 50) {
-                    //manipulate defense for the next turn
-//                    System.out.println( mon.getName() + " defends themselves!");
-                    Log.v("MonOut", mon.getName() + " defends themselves!");
-                }
-                else if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 70) {
-                    mon.setHealth(mon.getHealth() + 1);
-//                    System.out.println( mon.getName() + " is healing!");
-                    Log.v("MonOut", mon.getName() + " is healing!");
-                } else {
-//                    System.out.println( mon.getName() + " falters!");
-                    Log.v("MonOut", mon.getName() + " falters!" + Integer.toString(mon.getHealth()));
-                }
-                current = hero;
-            }
-
-            currentActor.setText(current.getId());
-        }
-
-    }
     @Override
     protected void onResume() {
 
@@ -277,9 +167,121 @@ public class BattleActivity extends AppCompatActivity {
 
         //When we implement the deck
         //Game game = new Game(getCard(hero), getCard(mon));
-        heroStr = intent.getStringExtra("HERO");
-        monStr = intent.getStringExtra("MON");
 
+
+        setupActorPositions(intent);
+        setupButtons();
+        setupVisuals();
+
+        //DO TURNS
+//Take user input (SUPER WIP)
+        //if(false)Decklist.selectCard(0);
+        //NFC CARD PICK HERE
+
+//            Log.v("I am a", actor.getType());
+        for(Map.Entry<String, Integer> effect : hero.timers.entrySet()){
+            //proc effects here
+            //Silver Bullets
+            if(effect.getKey() == "DECK0001" && effect.getValue() == 3){
+                hero.setAttack(hero.getAttack()*2);
+            }
+            if(effect.getKey() == "DECK0001" && effect.getValue() == 0) {
+                //get original stats from the deck
+                hero.setAttack(hero.getCard(hero.getId()).getAttack());
+            }
+            //Tactical Roll
+            if(effect.getKey() == "DECK0002" && effect.getValue() >= 2){
+                if(rand.nextInt(100) <= 25)
+                    hero.setDefense(Integer.MAX_VALUE);
+            }
+            if(effect.getKey() == "DECK0002" && effect.getValue() == 0) {
+                hero.setDefense(hero.getCard(hero.getId()).getDefense());
+            }
+            //All Tied Up
+            if(effect.getKey() == "DECK0003" && effect.getValue() >= 2){
+                skip = true;
+            }
+            if(effect.getKey() == "DECK0003" && effect.getValue() == 0) {
+                skip = false;
+            }
+        }
+        //proc timer here
+        current.procTimer();
+
+        if(current.getType().equals("HERO")){
+            //Do a hero's turn, get input
+            Log.v("HEROLog", current.getType());
+
+        }
+        currentActor.setText(current.getId());
+
+        if(mon.getHealth() <= 0)  {
+            System.out.println("You Won");
+        }
+        else if(hero.getHealth() <= 0)  {
+            System.out.println("You Lost");
+        }
+    }
+
+    private void monTurn() {
+        //Do a monster's turn
+        TextView modHealth;
+        Log.v("MonOut", "My Turn!");
+
+        if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 10) {
+            hero.setHealth(hero.getHealth() - (mon.getAttack() - hero.getDefense()));
+            modHealth = findViewById(R.id.heroHealth);
+            modHealth.setText(Integer.toString(hero.getHealth()));
+//                    System.out.println( mon.getName() + " attacks " + hero.getName() + "!");
+            Log.v("MonOut", mon.getName() + " attacks " + hero.getName() + "!");
+        }
+        else if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 50) {
+            //manipulate defense for the next turn
+//                    System.out.println( mon.getName() + " defends themselves!");
+            Log.v("MonOut", mon.getName() + " defends themselves!");
+        }
+        else if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 70) {
+            mon.setHealth(mon.getHealth() + 1);
+//                    System.out.println( mon.getName() + " is healing!");
+            Log.v("MonOut", mon.getName() + " is healing!");
+        } else {
+//                    System.out.println( mon.getName() + " falters!");
+            Log.v("MonOut", mon.getName() + " falters!" + Integer.toString(mon.getHealth()));
+        }
+        current = hero;
+    }
+
+    private void setupVisuals() {
+
+        //Display who goes first
+        currentActor = findViewById(R.id.currentTurn);
+        currentActor.setText(current.getName());
+
+        heroAttr = new TextView[]{
+                findViewById(R.id.heroName),
+                findViewById(R.id.heroHealth),
+                findViewById(R.id.heroAttack),
+                findViewById(R.id.heroDefense)
+        };
+        monAttr = new TextView[]{
+                findViewById(R.id.monName),
+                findViewById(R.id.monHealth),
+                findViewById(R.id.monAttack),
+                findViewById(R.id.monDefense)
+        };
+        //Tie heroes and monsters to their visual counterparts
+        heroAttr[0].setText(hero.getName());
+        heroAttr[1].setText(Integer.toString(hero.getHealth()));
+        heroAttr[2].setText(Integer.toString(hero.getAttack()));
+        heroAttr[3].setText(Integer.toString(hero.getDefense()));
+
+        monAttr[0].setText(mon.getName());
+        monAttr[1].setText(Integer.toString(mon.getHealth()));
+        monAttr[2].setText(Integer.toString(mon.getAttack()));
+        monAttr[3].setText(Integer.toString(mon.getDefense()));
+    }
+
+    private void setupButtons() {
         exitButton = findViewById(R.id.exitBattle);
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,6 +299,20 @@ public class BattleActivity extends AppCompatActivity {
                 else if (mon == current) current = hero;
             }
         });
+        attack = findViewById(R.id.attack);
+        attack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(current.getType().equals("HERO")) {
+                    mon.setHealth(
+                            mon.getHealth() - (hero.getAttack() - mon.getDefense())
+                    );
+                    monAttr[1].setText(String.valueOf(mon.getHealth()));
+
+                }
+
+            }
+          });
         cardVis = findViewById(R.id.cardVis);
         cardVis.addTextChangedListener(new TextWatcher() {
             @Override
@@ -311,7 +327,9 @@ public class BattleActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(currentCard != lastCard) {
+                if(currentCard.equals(lastCard))
+                    Toast.makeText(getApplicationContext(), "This power needs time!", Toast.LENGTH_SHORT).show();
+                else {
                     switch (currentCard.getId()){
                         case "DECK0001":
                             hero.timers.put("DECK0001", 3);
@@ -331,19 +349,25 @@ public class BattleActivity extends AppCompatActivity {
 
                     }
                     lastCard = currentCard;
-
+                    current = mon;
+                    monTurn();
                 }
             }
         });
-
-        game();
-        if(hero.getHealth() >= 0)  {
-            System.out.println("You Won");
-        }
-        else{
-            System.out.println("You Lost");
-        }
     }
+    private void setupActorPositions(Intent intent) {
+        heroStr = intent.getStringExtra("HERO");
+        monStr = intent.getStringExtra("MON");
+        //Determine characters
+        hero = new heroCards(heroStr);
+        mon = new monsterCards(monStr);
 
+        //Determine first
+        if(rand.nextBoolean()) current = hero;
+        else {
+            current = mon;
+            monTurn();
+        }
 
+    }
 }
