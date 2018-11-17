@@ -1,6 +1,9 @@
 package rush.boss.edu.bossrush;
 
-public class Card {
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class Card {
     private String id;
     private String name;
     private int health;
@@ -8,6 +11,30 @@ public class Card {
     private int defense;
     private String type;
     private String rarity;
+    HashMap<String, Integer> timers = new HashMap<>();
+
+    public Card(){
+    }
+
+    public Card(String id){
+        this.id = id;
+    }
+
+    public Card(String id, String name, int health, int attack, int defense, String rarity) {
+        this.id = id;
+        this.name = name;
+        this.health = health;
+        this.attack = attack;
+        this.defense = defense;
+
+    }
+    public Card(String id, String name, String type, String rarity){
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.rarity = rarity;
+    }
+
 
     public void setID(String id){
         this.id = id;
@@ -54,5 +81,12 @@ public class Card {
     }
     public String getRarity() {
         return rarity;
+    }
+    public void procTimer(){
+        for(Map.Entry<String, Integer> effect : timers.entrySet()){
+            Integer i  = effect.getValue();
+            if (i > 0)
+                effect.setValue(i - 1);
+        }
     }
 }

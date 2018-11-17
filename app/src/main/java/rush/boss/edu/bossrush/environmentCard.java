@@ -1,3 +1,4 @@
+/*
 package rush.boss.edu.bossrush;
 
 import java.util.ArrayList;
@@ -36,3 +37,4 @@ public class environmentCard extends Card {
         environments.add(ENVI0005);
     }
 }
+*/

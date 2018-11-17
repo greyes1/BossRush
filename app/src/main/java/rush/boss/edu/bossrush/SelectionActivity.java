@@ -58,11 +58,11 @@ public class SelectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(heroSpot.getText().toString().contains("HER") )battleData.putString("HERO", heroSpot.getText().toString());
-                else battleData.putString("HERO", "HER00001");
+                else battleData.putString("HERO", "HERO0001");
                 if(monSpot.getText().toString().contains("MON")) battleData.putString("MON",monSpot.getText().toString());
-                else battleData.putString("MON", "MON00001");
+                else battleData.putString("MON", "MONS0001");
                 if(envSpot.getText().toString().contains("ENV")) battleData.putString("ENV",envSpot.getText().toString());
-                else battleData.putString("ENV", "ENV00001");
+                else battleData.putString("ENV", "ENV0001");
 
                 toBattle.setClass(getApplicationContext(), BattleActivity.class);
                 toBattle.putExtras(battleData);

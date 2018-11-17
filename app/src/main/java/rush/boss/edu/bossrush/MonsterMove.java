@@ -1,9 +1,11 @@
+/*
 package rush.boss.edu.bossrush;
 
 public class MonsterMove {
 
     public MonsterMove()
     {
+
 
         int monsterHealth;
         int heroHealth;
@@ -27,7 +29,7 @@ public class MonsterMove {
 
         if (battleMove == attack) {
             HeroMan.setHealth(heroHealth - 12);
-            System.out.println( MonsterMan.getName + " attacks " + HeroMan.getName + "!")
+            System.out.println( MonsterMan.getName + " attacks " + HeroMan.getName + "!");
         }
         else if (battleMove == defend) {
             //manipulate defense for the next turn
@@ -44,3 +46,4 @@ public class MonsterMove {
     }
 
 }
+*/
