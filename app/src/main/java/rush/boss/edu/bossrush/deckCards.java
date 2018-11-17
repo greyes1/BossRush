@@ -8,7 +8,30 @@ public class deckCards extends Card {
         new deckCards("DECK0002", "Tactical Roll", "Skill", "Uncommon"),
         new deckCards("DECK0003", "All Tied Up", "Skill", "Rare"),
         new deckCards("DECK0004", "Disorientation", "Skill", "Common"),
-        new deckCards("DECK0005", "Impenetrable Barrier", "Spell", "Super Rare")
+        new deckCards("DECK0005", "Impenetrable Barrier", "Spell", "Super Rare"),
+        new deckCards("DECK0006", "Unlocked Potential", "Skill", "Super Rare"),
+        new deckCards("DECK0007", "Upgraded Weaponry", "Item", "Rare"),
+        new deckCards("DECK0008", "Enhanced Defense", "Item", "Rare"),
+        new deckCards("DECK0009", "Weapons Cache", "Item", "Rare"),
+        new deckCards("DECK0010", "Lash Out", "Skill", "Common"),
+        new deckCards("DECK0011", "Inner Strength", "Skill", "Common"),
+        new deckCards("DECK0012", "Strategic Retreat", "Skill", "Uncommon"),
+        new deckCards("DECK0013", "Healing Spell", "Spell", "Rare"),
+        new deckCards("DECK0014", "Time Bomb", "Item", "Legendary"),
+        new deckCards("DECK0015", "Sword Throw", "Item", "Rare"),
+        new deckCards("DECK0016", "Channel the Lightning", "Spell", "Uncommon"),
+        new deckCards("DECK0017", "Smoke Bomb", "Item", "Common"),
+        new deckCards("DECK0018", "Chainmail Armor", "Item", "Common"),
+        new deckCards("DECK0019", "Heavy Claymore", "Item", "Common"),
+        new deckCards("DECK0020", "Play it Safe", "Skill", "Super Rare"),
+        new deckCards("DECK0021", "Do it Again", "Skill", "Uncommon"),
+        new deckCards("DECK0022", "Turn the Tables", "Skill", "Legendary"),
+        new deckCards("DECK0023", "Role Reversal", "Spell", "Common"),
+        new deckCards("DECK0024", "Successful Barter", "Skill", "Uncommon"),
+        new deckCards("DECK0025", "Hit Me!", "Skill", "Legendary"),
+        new deckCards("DECK0026", "Rebound", "Spell", "Rare"),
+        new deckCards("DECK0027", "Temporal Surge", "Spell", "Rare"),
+        new deckCards("DECK0028", "Change the Future", "Spell", "Super Rare")
     };
 
     public deckCards() {
