@@ -36,10 +36,6 @@ public class MainActivity extends AppCompatActivity {
 //        boolean win =  gameStart(myHero, myMon);
 
         Button beginSelection = findViewById(R.id.beginSelection);
-        Button startNFC = findViewById(R.id.startNFC);
-
-        final TextView testOutput = findViewById(R.id.testOutput);
-
 
         beginSelection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +63,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        startNFC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testOutput.setText("Reading from NFC");
-            }
-        });
 
     }
 

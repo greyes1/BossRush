@@ -57,13 +57,12 @@ public class SelectionActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(heroSpot.getText().toString().contains("HER") )battleData.putString("HERO", heroSpot.getText().toString());
+                if(heroSpot.getText().toString().contains("HERO") )battleData.putString("HERO", heroSpot.getText().toString());
                 else battleData.putString("HERO", "HERO0001");
-                if(monSpot.getText().toString().contains("MON")) battleData.putString("MON",monSpot.getText().toString());
-                else battleData.putString("MON", "MONS0001");
-                if(envSpot.getText().toString().contains("ENV")) battleData.putString("ENV",envSpot.getText().toString());
-                else battleData.putString("ENV", "ENV0001");
-
+                if(monSpot.getText().toString().contains("MONS")) battleData.putString("MONS",monSpot.getText().toString());
+                else battleData.putString("MONS", "MONS0001");
+                if(envSpot.getText().toString().contains("ENVI")) battleData.putString("ENVI",envSpot.getText().toString());
+                else battleData.putString("ENVI", "ENV0001");
                 toBattle.setClass(getApplicationContext(), BattleActivity.class);
                 toBattle.putExtras(battleData);
                 startActivity(toBattle);
@@ -85,7 +84,7 @@ public class SelectionActivity extends AppCompatActivity {
         super.onNewIntent(intent);
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-            Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Got an Intent!", Toast.LENGTH_SHORT).show();
 
             if(tglReadWrite.isChecked())
             {
@@ -97,7 +96,6 @@ public class SelectionActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(this, "No NDEF messages found!", Toast.LENGTH_SHORT).show();
                 }
-
             }else{
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 NdefMessage ndefMessage = createNdefMessage(textTagContent.getText()+"");

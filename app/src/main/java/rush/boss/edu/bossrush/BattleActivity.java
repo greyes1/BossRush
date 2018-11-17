@@ -20,6 +20,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
@@ -52,6 +53,7 @@ public class BattleActivity extends AppCompatActivity {
     TextView currentActor;
     TextView cardVis;
     deckCards deck = new deckCards();
+    ArrayList<deckCards> usedCards = new ArrayList<>(39);
 
 
 
@@ -61,7 +63,7 @@ public class BattleActivity extends AppCompatActivity {
         super.onNewIntent(intent);
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
-            Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "NfcIntent!", Toast.LENGTH_SHORT).show();
             Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 
             if(parcelables != null && parcelables.length > 0)
@@ -93,10 +95,10 @@ public class BattleActivity extends AppCompatActivity {
 
             if(tagContent.contains("DECK") && deck.getCard(tagContent) != null && current.getType().equals("HERO")){
 //                textTagContent.setText(tagContent);
+//                Toast.makeText(this, tagContent, Toast.LENGTH_SHORT).show();
                 currentCard = deck.getCard(tagContent);
-                cardVis.setText(tagContent);
-                //
-                Toast.makeText(this, deck.getCard(tagContent).getName(), Toast.LENGTH_SHORT).show();
+                cardVis.setText(currentCard.getName());
+//                Toast.makeText(this, deck.getCard(tagContent).getName(), Toast.LENGTH_SHORT).show();
 
             }
             else Toast.makeText(this, "No deck card found!", Toast.LENGTH_SHORT).show();
@@ -170,92 +172,6 @@ public class BattleActivity extends AppCompatActivity {
 
 
         setupActorPositions(intent);
-        setupButtons();
-        setupVisuals();
-
-        //DO TURNS
-//Take user input (SUPER WIP)
-        //if(false)Decklist.selectCard(0);
-        //NFC CARD PICK HERE
-
-//            Log.v("I am a", actor.getType());
-        for(Map.Entry<String, Integer> effect : hero.timers.entrySet()){
-            //proc effects here
-            //Silver Bullets
-            if(effect.getKey() == "DECK0001" && effect.getValue() == 3){
-                hero.setAttack(hero.getAttack()*2);
-            }
-            if(effect.getKey() == "DECK0001" && effect.getValue() == 0) {
-                //get original stats from the deck
-                hero.setAttack(hero.getCard(hero.getId()).getAttack());
-            }
-            //Tactical Roll
-            if(effect.getKey() == "DECK0002" && effect.getValue() >= 2){
-                if(rand.nextInt(100) <= 25)
-                    hero.setDefense(Integer.MAX_VALUE);
-            }
-            if(effect.getKey() == "DECK0002" && effect.getValue() == 0) {
-                hero.setDefense(hero.getCard(hero.getId()).getDefense());
-            }
-            //All Tied Up
-            if(effect.getKey() == "DECK0003" && effect.getValue() >= 2){
-                skip = true;
-            }
-            if(effect.getKey() == "DECK0003" && effect.getValue() == 0) {
-                skip = false;
-            }
-        }
-        //proc timer here
-        current.procTimer();
-
-        if(current.getType().equals("HERO")){
-            //Do a hero's turn, get input
-            Log.v("HEROLog", current.getType());
-
-        }
-        currentActor.setText(current.getId());
-
-        if(mon.getHealth() <= 0)  {
-            System.out.println("You Won");
-        }
-        else if(hero.getHealth() <= 0)  {
-            System.out.println("You Lost");
-        }
-    }
-
-    private void monTurn() {
-        //Do a monster's turn
-        TextView modHealth;
-        Log.v("MonOut", "My Turn!");
-
-        if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 10) {
-            hero.setHealth(hero.getHealth() - (mon.getAttack() - hero.getDefense()));
-            modHealth = findViewById(R.id.heroHealth);
-            modHealth.setText(Integer.toString(hero.getHealth()));
-//                    System.out.println( mon.getName() + " attacks " + hero.getName() + "!");
-            Log.v("MonOut", mon.getName() + " attacks " + hero.getName() + "!");
-        }
-        else if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 50) {
-            //manipulate defense for the next turn
-//                    System.out.println( mon.getName() + " defends themselves!");
-            Log.v("MonOut", mon.getName() + " defends themselves!");
-        }
-        else if (mon.getCard(mon.getId()).getHealth() - mon.getHealth() >= 70) {
-            mon.setHealth(mon.getHealth() + 1);
-//                    System.out.println( mon.getName() + " is healing!");
-            Log.v("MonOut", mon.getName() + " is healing!");
-        } else {
-//                    System.out.println( mon.getName() + " falters!");
-            Log.v("MonOut", mon.getName() + " falters!" + Integer.toString(mon.getHealth()));
-        }
-        current = hero;
-    }
-
-    private void setupVisuals() {
-
-        //Display who goes first
-        currentActor = findViewById(R.id.currentTurn);
-        currentActor.setText(current.getName());
 
         heroAttr = new TextView[]{
                 findViewById(R.id.heroName),
@@ -279,7 +195,118 @@ public class BattleActivity extends AppCompatActivity {
         monAttr[1].setText(Integer.toString(mon.getHealth()));
         monAttr[2].setText(Integer.toString(mon.getAttack()));
         monAttr[3].setText(Integer.toString(mon.getDefense()));
+
+
+        //Determine first
+        if(rand.nextBoolean()) current = hero;
+        else {
+            current = mon;
+        }
+        //Display who goes first
+        currentActor = findViewById(R.id.currentTurn);
+        currentActor.setText(current.getName());
+        setupButtons();
+
+        if(current.equals(mon))
+            monTurn();
+
+        //DO TURNS
+//Take user input (SUPER WIP)
+        //if(false)Decklist.selectCard(0);
+        //NFC CARD PICK HERE
+
+//            Log.v("I am a", actor.getType());
+
+        //proc timer here
+        currentActor.setText(current.getId());
+
+        if(mon.getHealth() <= 0)  {
+            System.out.println("You Won");
+        }
+        else if(hero.getHealth() <= 0)  {
+            System.out.println("You Lost");
+        }
     }
+
+    private void monTurn() {
+        //Do a monster's turn
+        if(!skip) {
+            Log.v("MonOut", "My Turn!");
+            int temp = rand.nextInt(4);
+            if (temp <= 1) {
+                hero.setHealth(hero.getHealth() - ((mon.getAttack() < hero.getDefense()) ? 0 : mon.getAttack() - hero.getDefense()));
+                heroAttr[1].setText(Integer.toString(hero.getHealth()));
+                //                    System.out.println( mon.getName() + " attacks " + hero.getName() + "!");
+                Log.v("MonOut", mon.getName() + " attacks " + hero.getName() + "!");
+            } else if (temp == 3) {
+                //manipulate defense for the next turn
+                //                    System.out.println( mon.getName() + " defends themselves!");
+                Log.v("MonOut", mon.getName() + " defends themselves!");
+            } else if (temp == 4) {
+                mon.setHealth(mon.getHealth() + 1);
+                //                    System.out.println( mon.getName() + " is healing!");
+                Log.v("MonOut", mon.getName() + " is healing!");
+            } else {
+                //                    System.out.println( mon.getName() + " falters!");
+                Log.v("MonOut", mon.getName() + " falters!" + Integer.toString(mon.getHealth()));
+            }
+        }
+        current = hero;
+        currentActor.setText(hero.getName());
+
+        for(Map.Entry<String, Integer> effect : hero.timers.entrySet()){
+            //proc effects here
+//            if(usedCards.size() < 41 && !usedCards.contains(currentCard)){
+                //Silver Bullets
+                if(effect.getKey() == "DECK0001" && effect.getValue() == 3){
+                    Log.v("HeroOut", "Our hero loads SILVER BULLETS");
+                    hero.setAttack(hero.getAttack()*2);
+                    heroAttr[2].setText(Integer.toString(hero.getAttack()));
+                } else if(effect.getKey() == "DECK0001" && effect.getValue() == 0) {
+                    //get original stats from the deck
+                    Log.v("HeroOut", "Out of SILVER BULLETS");
+                    hero.setAttack(hero.getCard(hero.getId()).getAttack());
+                    heroAttr[2].setText(Integer.toString(hero.getAttack()));
+                    effect.setValue(-10);
+                    usedCards.add((deckCards) currentCard);
+                }
+                //Tactical Roll
+                if(effect.getKey() == "DECK0002" && effect.getValue() >= 2){
+                    Log.v("HeroOut", "Our hero goes for a TACTICAL ROLL");
+                    if(rand.nextInt(100) <= 25){
+                        Log.v("HeroOut", "Our hero successfully dives clear");
+                        hero.setDefense(Integer.MAX_VALUE);
+                        heroAttr[3].setText(Integer.toString(hero.getDefense()));
+                    }else{
+                        Log.v("HeroOut", "A valiant effort put to waste!");
+                    }
+                } else if(effect.getKey() == "DECK0002" && effect.getValue() == 0) {
+                    Log.v("HeroOut", "Our enemy is compensating for our dodges!");
+                    hero.setDefense(hero.getCard(hero.getId()).getDefense());
+                    heroAttr[3].setText(Integer.toString(hero.getDefense()));
+                    effect.setValue(-10);
+                    usedCards.add((deckCards) currentCard);
+                }
+                //All Tied Up
+                if(effect.getKey() == "DECK0003" && effect.getValue() >= 2){
+                    Log.v("HeroOut", "Our hero throw a bola, and our enemy is ALL TIED UP");
+                    skip = true;
+                } else if(effect.getKey() == "DECK0003" && effect.getValue() == 0) {
+                    Log.v("HeroOut", "Our enemy is free of their restraints");
+                    skip = false;
+                    effect.setValue(-10);
+                    usedCards.add((deckCards) currentCard);
+                }
+            /*}else if(usedCards.contains(currentCard)){
+                Log.v("HeroOut", "The enemy has adapted to that ability!");
+            }else{
+                Log.v("HeroOut", "Our hero has run out of cards!");
+            }*/
+        }
+        current.procTimer();
+
+    }
+
 
     private void setupButtons() {
         exitButton = findViewById(R.id.exitBattle);
@@ -291,33 +318,36 @@ public class BattleActivity extends AppCompatActivity {
                 startActivity(main);
             }
         });
-        turnEnd = findViewById(R.id.turnEnd);
-        turnEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(hero == current && !skip) current = mon;
-                else if (mon == current) current = hero;
-            }
-        });
         attack = findViewById(R.id.attack);
         attack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(current.getType().equals("HERO")) {
                     mon.setHealth(
-                            mon.getHealth() - (hero.getAttack() - mon.getDefense())
+                            mon.getHealth() - ((hero.getAttack() < mon.getDefense()) ? 0 : hero.getAttack() - mon.getDefense())
                     );
                     monAttr[1].setText(String.valueOf(mon.getHealth()));
-
+                    current = mon;
+                    currentActor.setText(current.getName());
+                    Log.v("HeroOut!", "Our hero attacked!");
+                    monTurn();
                 }
 
             }
           });
         cardVis = findViewById(R.id.cardVis);
         cardVis.addTextChangedListener(new TextWatcher() {
+            boolean reuse = false;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if(currentCard != null) {
+                    Log.v("Super before change", currentCard.getName());
+                    if (lastCard != null && currentCard.getId().equals(lastCard.getId())) {
+                        Toast.makeText(getApplicationContext(), "This power needs time!", Toast.LENGTH_SHORT).show();
+                        Log.v("Before change", "This power needs time!");
+                        reuse = true;
+                    }
+                }
             }
 
             @Override
@@ -327,9 +357,7 @@ public class BattleActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(currentCard.equals(lastCard))
-                    Toast.makeText(getApplicationContext(), "This power needs time!", Toast.LENGTH_SHORT).show();
-                else {
+                if(!reuse && currentCard != null){
                     switch (currentCard.getId()){
                         case "DECK0001":
                             hero.timers.put("DECK0001", 3);
@@ -346,10 +374,11 @@ public class BattleActivity extends AppCompatActivity {
                         case "DECK0005":
 
                             break;
-
                     }
                     lastCard = currentCard;
                     current = mon;
+                    currentActor.setText(current.getName());
+                    reuse = false;
                     monTurn();
                 }
             }
@@ -357,17 +386,9 @@ public class BattleActivity extends AppCompatActivity {
     }
     private void setupActorPositions(Intent intent) {
         heroStr = intent.getStringExtra("HERO");
-        monStr = intent.getStringExtra("MON");
+        monStr = intent.getStringExtra("MONS");
         //Determine characters
         hero = new heroCards(heroStr);
         mon = new monsterCards(monStr);
-
-        //Determine first
-        if(rand.nextBoolean()) current = hero;
-        else {
-            current = mon;
-            monTurn();
-        }
-
     }
 }

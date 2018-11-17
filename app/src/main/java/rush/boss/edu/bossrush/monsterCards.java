@@ -1,8 +1,5 @@
 package rush.boss.edu.bossrush;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class monsterCards extends Card {
 
     private static monsterCards[] monDeck = {

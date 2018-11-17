@@ -64,9 +64,11 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="4dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/attack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
@@ -158,32 +160,17 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/turnEnd"
-        android:layout_width="match_parent"
-        android:layout_height="57dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="That's my turn!"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-    <Button
         android:id="@+id/attack"
         android:layout_width="match_parent"
         android:layout_height="57dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="ATTACK THE ENEMY!!"
         app:layout_constraintBottom_toTopOf="@+id/exitBattle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/turnEnd" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/exitBattle"
