@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -170,14 +171,14 @@ public class BattleActivity extends AppCompatActivity {
         //When we implement the deck
         //Game game = new Game(getCard(hero), getCard(mon));
 
-
         setupActorPositions(intent);
 
         heroAttr = new TextView[]{
                 findViewById(R.id.heroName),
                 findViewById(R.id.heroHealth),
                 findViewById(R.id.heroAttack),
-                findViewById(R.id.heroDefense)
+                findViewById(R.id.heroDefense),
+
         };
         monAttr = new TextView[]{
                 findViewById(R.id.monName),
@@ -190,11 +191,15 @@ public class BattleActivity extends AppCompatActivity {
         heroAttr[1].setText(Integer.toString(hero.getHealth()));
         heroAttr[2].setText(Integer.toString(hero.getAttack()));
         heroAttr[3].setText(Integer.toString(hero.getDefense()));
+        heroAttr[3].setText(Integer.toString(hero.getDefense()));
 
         monAttr[0].setText(mon.getName());
         monAttr[1].setText(Integer.toString(mon.getHealth()));
         monAttr[2].setText(Integer.toString(mon.getAttack()));
         monAttr[3].setText(Integer.toString(mon.getDefense()));
+
+
+
 
 
         //Determine first
@@ -206,9 +211,30 @@ public class BattleActivity extends AppCompatActivity {
         currentActor = findViewById(R.id.currentTurn);
         currentActor.setText(current.getName());
         setupButtons();
-
         if(current.equals(mon))
             monTurn();
+        currentActor.setText(current.getId());
+
+ /*
+      //      Set images only works for hero as of now
+        ImageView monImage = findViewById(R.id.monImage);
+        ImageView heroImage = findViewById(R.id.heroImage);
+// set hero image
+        if(hero.getId().equals("HERO0001"))
+            heroImage.setImageResource(R.drawable.hero0001);
+        else if(hero.getId().equals("HERO0002"))
+            heroImage.setImageResource(R.drawable.hero0002);
+        else if(hero.getId().equals("HERO0003"))
+            heroImage.setImageResource(R.drawable.hero0003);
+        else if(hero.getId().equals("HERO0004"))
+            heroImage.setImageResource(R.drawable.hero0004);
+//set monster image
+        if(mon.getId().equals("MONS0001") && monImage != null)
+            monImage.setImageResource(R.drawable.mons0001);
+        else if(mon.getId().equals("MONS0002") && monImage != null)
+            monImage.setImageResource(R.drawable.mons0002);
+        else if(mon.getId().equals("MONS0003") && monImage != null)
+            monImage.setImageResource(R.drawable.mons0003);*/
 
         //DO TURNS
 //Take user input (SUPER WIP)
@@ -218,7 +244,6 @@ public class BattleActivity extends AppCompatActivity {
 //            Log.v("I am a", actor.getType());
 
         //proc timer here
-        currentActor.setText(current.getId());
 
         if(mon.getHealth() <= 0)  {
             System.out.println("You Won");
