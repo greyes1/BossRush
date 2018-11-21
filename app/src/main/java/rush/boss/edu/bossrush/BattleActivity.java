@@ -52,6 +52,7 @@ public class BattleActivity extends AppCompatActivity {
     TextView[] heroAttr;
     TextView[] monAttr;
     TextView currentActor;
+    TextView battleLog;
     TextView cardVis;
     deckCards deck = new deckCards();
     ArrayList<deckCards> usedCards = new ArrayList<>(39);
@@ -198,6 +199,7 @@ public class BattleActivity extends AppCompatActivity {
         monAttr[2].setText(Integer.toString(mon.getAttack()));
         monAttr[3].setText(Integer.toString(mon.getDefense()));
 
+        battleLog = findViewById(R.id.lastEffect);
 
 
 
@@ -215,7 +217,6 @@ public class BattleActivity extends AppCompatActivity {
             monTurn();
         currentActor.setText(current.getId());
 
- /*
       //      Set images only works for hero as of now
         ImageView monImage = findViewById(R.id.monImage);
         ImageView heroImage = findViewById(R.id.heroImage);
@@ -229,12 +230,12 @@ public class BattleActivity extends AppCompatActivity {
         else if(hero.getId().equals("HERO0004"))
             heroImage.setImageResource(R.drawable.hero0004);
 //set monster image
-        if(mon.getId().equals("MONS0001") && monImage != null)
+        if(monImage != null && mon.getId().equals("MONS0001"))
             monImage.setImageResource(R.drawable.mons0001);
-        else if(mon.getId().equals("MONS0002") && monImage != null)
+        else if(monImage != null && mon.getId().equals("MONS0002"))
             monImage.setImageResource(R.drawable.mons0002);
-        else if(mon.getId().equals("MONS0003") && monImage != null)
-            monImage.setImageResource(R.drawable.mons0003);*/
+        else if(monImage != null &&mon.getId().equals("MONS0003"))
+            monImage.setImageResource(R.drawable.mons0003);
 
         //DO TURNS
 //Take user input (SUPER WIP)
@@ -263,17 +264,21 @@ public class BattleActivity extends AppCompatActivity {
                 heroAttr[1].setText(Integer.toString(hero.getHealth()));
                 //                    System.out.println( mon.getName() + " attacks " + hero.getName() + "!");
                 Log.v("MonOut", mon.getName() + " attacks " + hero.getName() + "!");
+                battleLog.setText(mon.getName() + " attacks " + hero.getName() + "!");
             } else if (temp == 3) {
                 //manipulate defense for the next turn
                 //                    System.out.println( mon.getName() + " defends themselves!");
                 Log.v("MonOut", mon.getName() + " defends themselves!");
+                battleLog.setText(mon.getName() + " defends themselves!");
             } else if (temp == 4) {
                 mon.setHealth(mon.getHealth() + 1);
                 //                    System.out.println( mon.getName() + " is healing!");
                 Log.v("MonOut", mon.getName() + " is healing!");
+                battleLog.setText(mon.getName() + " is healing!");
             } else {
                 //                    System.out.println( mon.getName() + " falters!");
-                Log.v("MonOut", mon.getName() + " falters!" + Integer.toString(mon.getHealth()));
+                Log.v("MonOut", mon.getName() + " falters!");
+                battleLog.setText(mon.getName() + " falters!" + Integer.toString(mon.getHealth()));
             }
         }
         current = hero;
@@ -285,11 +290,13 @@ public class BattleActivity extends AppCompatActivity {
                 //Silver Bullets
                 if(effect.getKey() == "DECK0001" && effect.getValue() == 3){
                     Log.v("HeroOut", "Our hero loads SILVER BULLETS");
+                    battleLog.setText("Our hero loads SILVER BULLETS");
                     hero.setAttack(hero.getAttack()*2);
                     heroAttr[2].setText(Integer.toString(hero.getAttack()));
                 } else if(effect.getKey() == "DECK0001" && effect.getValue() == 0) {
                     //get original stats from the deck
                     Log.v("HeroOut", "Out of SILVER BULLETS");
+                    battleLog.setText("Out of SILVER BULLETS");
                     hero.setAttack(hero.getCard(hero.getId()).getAttack());
                     heroAttr[2].setText(Integer.toString(hero.getAttack()));
                     effect.setValue(-10);
@@ -298,15 +305,19 @@ public class BattleActivity extends AppCompatActivity {
                 //Tactical Roll
                 if(effect.getKey() == "DECK0002" && effect.getValue() >= 2){
                     Log.v("HeroOut", "Our hero goes for a TACTICAL ROLL");
+                    battleLog.setText("Our hero goes for a TACTICAL ROLL");
                     if(rand.nextInt(100) <= 25){
                         Log.v("HeroOut", "Our hero successfully dives clear");
+                        battleLog.setText("Our hero successfully dives clear");
                         hero.setDefense(Integer.MAX_VALUE);
                         heroAttr[3].setText(Integer.toString(hero.getDefense()));
                     }else{
                         Log.v("HeroOut", "A valiant effort put to waste!");
+                        battleLog.setText("A valiant effort put to waste!");
                     }
                 } else if(effect.getKey() == "DECK0002" && effect.getValue() == 0) {
                     Log.v("HeroOut", "Our enemy is compensating for our dodges!");
+                    battleLog.setText("Our enemy is compensating for our dodges!");
                     hero.setDefense(hero.getCard(hero.getId()).getDefense());
                     heroAttr[3].setText(Integer.toString(hero.getDefense()));
                     effect.setValue(-10);
@@ -315,9 +326,11 @@ public class BattleActivity extends AppCompatActivity {
                 //All Tied Up
                 if(effect.getKey() == "DECK0003" && effect.getValue() >= 2){
                     Log.v("HeroOut", "Our hero throw a bola, and our enemy is ALL TIED UP");
+                    battleLog.setText("Our hero throw a bola, and our enemy is ALL TIED UP");
                     skip = true;
                 } else if(effect.getKey() == "DECK0003" && effect.getValue() == 0) {
                     Log.v("HeroOut", "Our enemy is free of their restraints");
+                    battleLog.setText("Our enemy is free of their restraints");
                     skip = false;
                     effect.setValue(-10);
                     usedCards.add((deckCards) currentCard);
@@ -354,7 +367,8 @@ public class BattleActivity extends AppCompatActivity {
                     monAttr[1].setText(String.valueOf(mon.getHealth()));
                     current = mon;
                     currentActor.setText(current.getName());
-                    Log.v("HeroOut!", "Our hero attacked!");
+                    Log.v("HeroOut!", "Our hero attacks!");
+                    battleLog.setText("Our hero attacks!");
                     monTurn();
                 }
 
